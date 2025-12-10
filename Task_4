@@ -1,0 +1,31 @@
+                internal class Program
+{
+    static void Main(string[] args)
+    {
+        Dictionary<string, string> cache = new Dictionary<string, string>();
+
+        //пример использования кэша
+        string query1 = "SELECT * FROM Students";
+        string query2 = "SELECT * FROM Courses";
+
+        //выполнение запроса и кэширование результата
+        string result1 = ExecuteQuery(query1);
+        cache[query1] = result1;
+
+        // поверка кэша перед выполнением запроса
+        if (cache.TryGetValue(query2, out string cachedResult))
+        {
+            Console.WriteLine($"Результат из кэша для запроса '{query2}': {cachedResult}");
+        }
+        else
+        {
+            string result2 = ExecuteQuery(query2);
+            cache[query2] = result2;
+            Console.WriteLine($"Результат для запроса '{query2}': {result2}");
+        }
+    }
+    static string ExecuteQuery(string query)
+    {
+        // код выполнения запроса
+        return $"Результат выполнения запроса: {query}";
+    }

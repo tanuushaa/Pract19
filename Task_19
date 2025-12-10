@@ -1,0 +1,67 @@
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //иициализация склада с товарами и их количеством
+            Dictionary<string, int> stock = new Dictionary<string, int>
+        {
+            { "Молоко", 15 },
+            { "Хлеб", 10 },
+            { "Яйца", 20 },
+            { "Сыр", 5 },
+            { "Кефир", 8 },
+            { "Мясо", 12 }
+        };
+
+            //словарь для учета проданных товаров
+            Dictionary<string, int> soldItems = new Dictionary<string, int>();
+
+            // Продажа товаров
+            SellItem(stock, soldItems, "Молоко", 2);
+            SellItem(stock, soldItems, "Хлеб", 1);
+            SellItem(stock, soldItems, "Яйца", 1);
+
+            //вывод остатка на складе и количество проданных товаров
+            Console.WriteLine("Остатки:");
+            foreach (var item in stock)
+            {
+                Console.WriteLine($"{item.Key}: {item.Value}");
+            }
+
+            Console.WriteLine("\nПроданные товары:");
+            foreach (var soldItem in soldItems)
+            {
+                Console.WriteLine($"{soldItem.Key}: {soldItem.Value} раз");
+            }
+        }
+
+        static void SellItem(Dictionary<string, int> stock, Dictionary<string, int> soldItems, string itemName, int quantity)
+        {
+            if (stock.ContainsKey(itemName))
+            {
+                if (stock[itemName] >= quantity)
+                {
+                    stock[itemName] -= quantity;
+
+                    //увеличиваем количество проданных товаров
+                    if (soldItems.ContainsKey(itemName))
+                    {
+                        soldItems[itemName] += quantity;
+                    }
+                    else
+                    {
+                        soldItems[itemName] = quantity;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Товара '{itemName}' недостаточно в наличии.");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Товара '{itemName}' нет в наличии.");
+            }
+        }   
+    }
+}
